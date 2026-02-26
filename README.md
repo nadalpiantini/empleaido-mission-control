@@ -1,6 +1,6 @@
-# Mission Control Dashboard
+# Empleaido Mission Control Dashboard
 
-**Mission Control** es un centro de operaciones integral para gestión de tareas, calendario, memoria del equipo y pipeline de operaciones.
+**Empleaido Mission Control** es un centro de operaciones integral para gestión de tareas, calendario, memoria del equipo y pipeline de operaciones.
 
 ## 🚀 Características
 
@@ -34,7 +34,7 @@ npm run build
 ## 📂 Estructura
 
 ```
-mission-control/
+empleaido-mission-control/
 ├── src/
 │   ├── pages/          # Páginas principales
 │   ├── components/     # Componentes reutilizables
@@ -53,3 +53,7 @@ mission-control/
 ---
 
 Extracted from Agentic-Empleaido-eko-extension (claude/setup-project-dtR4L)
+
+## 🦞 Empleaido Ecosystem
+
+Este dashboard es parte del ecosistema Empleaido para automatización fiscal en República Dominicana.

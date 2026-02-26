@@ -1,7 +1,7 @@
 {
-  "name": "mission-control",
+  "name": "empleaido-mission-control",
   "version": "1.0.0",
-  "description": "Mission Control Dashboard - Task Management & Operations Center",
+  "description": "Empleaido Mission Control Dashboard - Task Management & Operations Center",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --mode development --open",
