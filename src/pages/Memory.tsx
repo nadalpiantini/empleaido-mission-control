@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 
 interface MemoryEntry {
   id: string;
+  date: string;
   time: string;
   type: 'decision' | 'action' | 'learning' | 'error' | 'context';
   content: string;
@@ -24,14 +25,14 @@ const typeStyles: Record<string, { bg: string; color: string; label: string }> =
 };
 
 const allEntries: MemoryEntry[] = [
-  { id: 'm1', time: '14:32', type: 'action', content: 'IR-17 de febrero procesado y enviado a DGII. Monto total de retenciones: RD$45,230.00. Verificacion exitosa con codigo de confirmacion #DGII-2026-0847.', context: 'Empresa ABC S.R.L. - Periodo Febrero 2026', agent: 'Fiscal Lead' },
-  { id: 'm2', time: '14:15', type: 'decision', content: 'Se decidio aplicar la tasa de retencion del 27% para dividendos segun Art. 308 del Codigo Tributario, en lugar del 10% que se venia aplicando incorrectamente.', context: 'Revision de politica de retenciones', agent: 'Fiscal Lead' },
-  { id: 'm3', time: '13:48', type: 'learning', content: 'Patron detectado: Las facturas de proveedores de zona franca requieren un NCF tipo B15 especial. Se actualizo la regla de clasificacion automatica para futuros documentos.', context: 'Clasificacion automatica de NCFs', agent: 'Doc Analyzer' },
-  { id: 'm4', time: '12:20', type: 'error', content: 'Error de validacion en NCF E310000000124: El RNC del proveedor (130-45678-1) no coincide con el registrado en DGII. Se puso en cuarentena para revision manual.', context: 'Pipeline de validacion NCF', agent: 'Validator' },
-  { id: 'm5', time: '11:45', type: 'context', content: 'Recordatorio: El plazo para presentacion del IT-1 del primer trimestre 2026 vence el 28 de abril. Faltan 61 dias. Se programo recordatorio para 30 dias antes.', context: 'Calendario fiscal DGII', agent: 'Calendar Agent' },
-  { id: 'm6', time: '10:30', type: 'action', content: 'Conciliacion bancaria de enero completada. 3 discrepancias encontradas y resueltas: 2 depositos en transito y 1 cheque pendiente de cobro por RD$12,500.', context: 'Banco Popular - Cuenta Corriente #4521', agent: 'Validator' },
-  { id: 'm7', time: '09:15', type: 'learning', content: 'El nuevo formato de exportacion DGII para 2026 requiere campos adicionales de tipo de pago. Se actualizo el template de generacion para incluir codigo de metodo de pago.', context: 'Actualizacion normativa DGII 2026', agent: 'Fiscal Lead' },
-  { id: 'm8', time: '08:00', type: 'context', content: 'Inicio de sesion del sistema. 5 tareas pendientes, 2 en progreso. Proxima fecha limite: IR-17 Marzo (10 de marzo). Estado general: operativo.', context: 'Boot del sistema', agent: 'System' },
+  { id: 'm1', date: '2026-02-26', time: '14:32', type: 'action', content: 'IR-17 de febrero procesado y enviado a DGII. Monto total de retenciones: RD$45,230.00. Verificacion exitosa con codigo de confirmacion #DGII-2026-0847.', context: 'Empresa ABC S.R.L. - Periodo Febrero 2026', agent: 'Fiscal Lead' },
+  { id: 'm2', date: '2026-02-26', time: '14:15', type: 'decision', content: 'Se decidio aplicar la tasa de retencion del 27% para dividendos segun Art. 308 del Codigo Tributario, en lugar del 10% que se venia aplicando incorrectamente.', context: 'Revision de politica de retenciones', agent: 'Fiscal Lead' },
+  { id: 'm3', date: '2026-02-26', time: '13:48', type: 'learning', content: 'Patron detectado: Las facturas de proveedores de zona franca requieren un NCF tipo B15 especial. Se actualizo la regla de clasificacion automatica para futuros documentos.', context: 'Clasificacion automatica de NCFs', agent: 'Doc Analyzer' },
+  { id: 'm4', date: '2026-02-25', time: '12:20', type: 'error', content: 'Error de validacion en NCF E310000000124: El RNC del proveedor (130-45678-1) no coincide con el registrado en DGII. Se puso en cuarentena para revision manual.', context: 'Pipeline de validacion NCF', agent: 'Validator' },
+  { id: 'm5', date: '2026-02-25', time: '11:45', type: 'context', content: 'Recordatorio: El plazo para presentacion del IT-1 del primer trimestre 2026 vence el 28 de abril. Faltan 61 dias. Se programo recordatorio para 30 dias antes.', context: 'Calendario fiscal DGII', agent: 'Calendar Agent' },
+  { id: 'm6', date: '2026-02-24', time: '10:30', type: 'action', content: 'Conciliacion bancaria de enero completada. 3 discrepancias encontradas y resueltas: 2 depositos en transito y 1 cheque pendiente de cobro por RD$12,500.', context: 'Banco Popular - Cuenta Corriente #4521', agent: 'Validator' },
+  { id: 'm7', date: '2026-02-24', time: '09:15', type: 'learning', content: 'El nuevo formato de exportacion DGII para 2026 requiere campos adicionales de tipo de pago. Se actualizo el template de generacion para incluir codigo de metodo de pago.', context: 'Actualizacion normativa DGII 2026', agent: 'Fiscal Lead' },
+  { id: 'm8', date: '2026-02-23', time: '08:00', type: 'context', content: 'Inicio de sesion del sistema. 5 tareas pendientes, 2 en progreso. Proxima fecha limite: IR-17 Marzo (10 de marzo). Estado general: operativo.', context: 'Boot del sistema', agent: 'System' },
 ];
 
 const dateGroups: DateGroup[] = [
@@ -56,9 +57,10 @@ const Memory: React.FC = () => {
         entry.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (entry.context && entry.context.toLowerCase().includes(searchQuery.toLowerCase()));
       const matchesType = !activeType || entry.type === activeType;
-      return matchesSearch && matchesType;
+      const matchesDate = !activeDate || entry.date === activeDate;
+      return matchesSearch && matchesType && matchesDate;
     });
-  }, [searchQuery, activeType]);
+  }, [searchQuery, activeType, activeDate]);
 
   return (
     <div>
@@ -94,14 +96,14 @@ const Memory: React.FC = () => {
             <div className="mc-card-title" style={{ marginBottom: 0 }}>Fechas</div>
           </div>
           {dateGroups.map((group) => (
-            <div
+            <button
               key={group.date}
               className={`mc-memory-date-item ${activeDate === group.date ? 'active' : ''}`}
               onClick={() => setActiveDate(group.date)}
             >
               <div className="mc-memory-date-label">{group.label}</div>
               <div className="mc-memory-date-count">{group.count} entries</div>
-            </div>
+            </button>
           ))}
         </div>
 

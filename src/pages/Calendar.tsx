@@ -49,10 +49,11 @@ const upcomingEvents: UpcomingEvent[] = [
 ];
 
 const Calendar: React.FC = () => {
-  const [currentMonth, setCurrentMonth] = useState(1); // 0-indexed, Feb = 1
-  const [currentYear] = useState(2026);
+  const now = new Date();
+  const [currentMonth, setCurrentMonth] = useState(now.getMonth());
+  const [currentYear, setCurrentYear] = useState(now.getFullYear());
 
-  const today = 26; // Feb 26, 2026
+  const today = now.getDate();
 
   const calendarDays = useMemo(() => {
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
@@ -87,8 +88,24 @@ const Calendar: React.FC = () => {
     return days;
   }, [currentMonth, currentYear]);
 
-  const prevMonth = () => setCurrentMonth(m => m === 0 ? 11 : m - 1);
-  const nextMonth = () => setCurrentMonth(m => m === 11 ? 0 : m + 1);
+  const prevMonth = () => {
+    setCurrentMonth(m => {
+      if (m === 0) {
+        setCurrentYear(y => y - 1);
+        return 11;
+      }
+      return m - 1;
+    });
+  };
+  const nextMonth = () => {
+    setCurrentMonth(m => {
+      if (m === 11) {
+        setCurrentYear(y => y + 1);
+        return 0;
+      }
+      return m + 1;
+    });
+  };
 
   return (
     <div>
@@ -101,11 +118,11 @@ const Calendar: React.FC = () => {
         {/* Calendar Grid */}
         <div className="mc-calendar-grid">
           <div className="mc-calendar-month-header">
-            <button className="mc-calendar-nav-btn" onClick={prevMonth}>←</button>
+            <button className="mc-calendar-nav-btn" onClick={prevMonth} aria-label="Mes anterior">←</button>
             <div className="mc-calendar-month-title">
               {months[currentMonth]} {currentYear}
             </div>
-            <button className="mc-calendar-nav-btn" onClick={nextMonth}>→</button>
+            <button className="mc-calendar-nav-btn" onClick={nextMonth} aria-label="Mes siguiente">→</button>
           </div>
 
           <div className="mc-calendar-weekdays">
@@ -118,7 +135,7 @@ const Calendar: React.FC = () => {
             {calendarDays.map((day, i) => (
               <div
                 key={i}
-                className={`mc-calendar-day ${!day.isCurrentMonth ? 'other-month' : ''} ${day.isCurrentMonth && day.day === today && currentMonth === 1 ? 'today' : ''}`}
+                className={`mc-calendar-day ${!day.isCurrentMonth ? 'other-month' : ''} ${day.isCurrentMonth && day.day === today && currentMonth === now.getMonth() && currentYear === now.getFullYear() ? 'today' : ''}`}
               >
                 <div className="mc-calendar-day-number">{day.day}</div>
                 {day.events.map((event, j) => (

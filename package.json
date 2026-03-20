@@ -2,11 +2,13 @@
   "name": "empleaido-mission-control",
   "version": "1.0.0",
   "description": "Empleaido Mission Control Dashboard - Task Management & Operations Center",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "webpack serve --mode development --open",
     "build": "webpack --mode production",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [
     "dashboard",
@@ -20,13 +22,18 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "css-loader": "^6.8.0",
     "html-webpack-plugin": "^5.5.0",
+    "jsdom": "^29.0.1",
     "style-loader": "^3.3.0",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.0",
+    "vitest": "^4.1.0",
     "webpack": "^5.88.0",
     "webpack-cli": "^5.1.0",
     "webpack-dev-server": "^4.15.0"

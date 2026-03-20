@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
+import ErrorBoundary from './components/ErrorBoundary';
 import Dashboard from './pages/Dashboard';
 import TasksBoard from './pages/TasksBoard';
 import Memory from './pages/Memory';
@@ -28,7 +29,9 @@ const App: React.FC = () => {
     <div className="mc-layout">
       <Sidebar activePage={activePage} onNavigate={setActivePage} />
       <main className="mc-content">
-        {renderPage()}
+        <ErrorBoundary>
+          {renderPage()}
+        </ErrorBoundary>
       </main>
     </div>
   );

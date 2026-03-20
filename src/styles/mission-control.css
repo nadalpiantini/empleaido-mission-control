@@ -455,7 +455,15 @@ body {
 }
 
 .mc-memory-date-item {
+  display: block;
+  width: 100%;
   padding: 10px 12px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
   border-radius: var(--mc-radius-xs);
   cursor: pointer;
   transition: var(--mc-transition);

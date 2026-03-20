@@ -31,10 +31,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, onNavigate }) => {
       key={item.key}
       className={`mc-nav-item ${activePage === item.key ? 'active' : ''}`}
       onClick={() => onNavigate(item.key)}
+      aria-current={activePage === item.key ? 'page' : undefined}
     >
       <span className="nav-icon">{item.icon}</span>
       <span>{item.label}</span>
-      {item.badge && <span className="nav-badge">{item.badge}</span>}
+      {item.badge != null && item.badge > 0 && <span className="nav-badge">{item.badge}</span>}
     </button>
   );
 
